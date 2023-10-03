@@ -23,7 +23,7 @@ def lambda_handler(event, context):
     s3_key = event['Records'][0]['s3']['object']['key']
 
     # Specify the S3 bucket where you want to store Textract output
-    output_bucket = 'your-output-bucket'
+    output_bucket = 'your-output-bucket' # Add outout bucket to S3 called ""
 
     # Call Textract to process the PDF
     response = textract_client.start_document_text_detection(
@@ -44,8 +44,8 @@ def lambda_handler(event, context):
     extracted_data = extract_data(result)
 
     # Store the extracted data in another S3 bucket
-    s3_client = boto3.client('s3')
-    s3_client.put_object(
+    s3_client = boto3.client('s3')          # A low-level client representing Amazon Simple Storage Service (S3)
+    s3_client.put_object(                   # Adds an object to a bucket. You must have WRITE permissions on a bucket to add an object to it.
         Bucket=output_bucket,
         Key=s3_key.replace('pdf', 'json'),  # Change file extension if needed
         Body=json.dumps(extracted_data, indent=4)
