@@ -56,12 +56,13 @@ def lambda_handler(event, context):
         'body': json.dumps('PDF processing complete!')
     }
 
-def extract_data(textract_result):
+def extract_data(textract_result): #textract_response is the parameter passed to the function, which represents the Textract response. Contains the info extracted from the PDF invoice. 
     # Modify this function to extract the structured data you need from Textract response
     # Textract response structure can be complex; you may need to parse it accordingly
-    extracted_data = {}  # Extracted data should be in a structured format
+    extracted_data = {}  # Extracted data should be in a structured format. Populate this dictionary with extracted data. 
     # Extract data here...
 
+    invoice_number = textract_result['Blocks'][0]['text']
     
 
 
