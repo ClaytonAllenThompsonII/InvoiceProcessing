@@ -1,6 +1,6 @@
 # Analyzing Invoices and Receipts with Amazon Textract
-
 # to analyze invoice and receipt documents, use the AnalyzeExpense API operations and pass a document file as input. 
+# The following example code displays the document and boxes around detected items.
 
 import boto3
 import io
@@ -16,4 +16,15 @@ def draw_bounding_box(key, val, width, height, draw):
         draw.rectangle([left, top, left + (width * box['Width']), top + (height * box["Height"])],
                        outline='black')
 
+
 # Takes a field as an argument and prints out the detected labels and values
+def print_labels_and_values(field):
+    # Only if labels are detected and returned
+    if "LabelDetection" in field:
+        print("Summary Label Detection - Confidence: {}".format(
+            str(field.get("LabelDetection")["Confidence"])) + ", "
+              + "Summary Values: {}".format(str(field.get("LabelDetection")["Text"])))
+        print(field.get("LabelDetection")["Geometry"])
+    else:
+        print("Label Detection - No labels returned.")
+    
