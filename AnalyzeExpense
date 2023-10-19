@@ -1,0 +1,19 @@
+# Analyzing Invoices and Receipts with Amazon Textract
+
+# to analyze invoice and receipt documents, use the AnalyzeExpense API operations and pass a document file as input. 
+
+import boto3
+import io
+from PIL import image, ImageDraw
+
+def draw_bounding_box(key, val, width, height, draw):
+    # If a key is Geometry, draw the bounding box info in it
+    if "Geometry" in key: 
+        #draw bounding box information
+        box = val["BoundingBox"]
+        left = width * box['Left']
+        top = height * box['Top']
+        draw.rectangle([left, top, left + (width * box['Width']), top + (height * box["Height"])],
+                       outline='black')
+
+# Takes a field as an argument and prints out the detected labels and values
