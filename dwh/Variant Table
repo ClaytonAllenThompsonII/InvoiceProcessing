@@ -1,0 +1,6 @@
+/*Create a table with a VARIANT column that stores JSON data. */
+
+
+CREATE OR REPLACE expense_data (
+    json_data VARIANT
+);
