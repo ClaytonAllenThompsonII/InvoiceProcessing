@@ -20,6 +20,7 @@ def draw_bounding_box(key, val, width, height, draw):
 # Takes a field as an argument and prints out the detected labels and values
 def print_labels_and_values(field):
     # Only if labels are detected and returned
+    # label detection logic
     if "LabelDetection" in field:
         print("Summary Label Detection - Confidence: {}".format(
             str(field.get("LabelDetection")["Confidence"])) + ", "
@@ -27,4 +28,12 @@ def print_labels_and_values(field):
         print(field.get("LabelDetection")["Geometry"])
     else:
         print("Label Detection - No labels returned.")
-    
+
+    # Value Detection Logic
+    if "ValueDetection" in field:
+        print("Summary Value Detection - Confidence: {}".format(
+            str(field.get("ValueDetection")["Confidence"])) + ", "
+              + "Summary Values: {}".format(str(field.get("ValueDetection")["Text"])))
+        print(field.get("ValueDetection")["Geometry"])
+    else:
+        print("Value Detection - No values returned")
