@@ -1,0 +1,59 @@
+
+<!--This is a simple HTML page with a form for uploading PDF invoices. 
+    The JavaScript code handles the form submission, sending the selected file to the server for processing. --> >
+
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title> Cost CurveAI - Invoice Upload</title>
+    </head>
+    <body>
+        <h1>Cost CurveAI</h1>
+        <h2>Upload Your Invoice</h2>
+        <form id="invoice-upload-form" action="#" method="post" enctype="multipart/form-data">
+            <input type="file" name="invoice" id="invoice" accept=".pdf">
+            <button type="submit">Upload</button>
+        </form>
+        
+        <div id="upload-status"></div>
+        
+        <script>
+            const form = document.getElementById('invoice-upload-form');
+            const status = document.getElementById('upload-status');
+    
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fileInput = document.getElementById('invoice');
+                const file = fileInput.files[0];
+    
+                if (file) {
+                    status.innerHTML = 'Uploading...';
+    
+                    // Create a FormData object to send the file to the server
+                    const formData = new FormData();
+                    formData.append('invoice', file);
+    
+                    try {
+                        // Send a POST request to the server for file upload
+                        const response = await fetch('/upload', {
+                            method: 'POST',
+                            body: formData
+                        });
+    
+                        if (response.ok) {
+                            status.innerHTML = 'Upload successful!';
+                        } else {
+                            status.innerHTML = 'Upload failed.';
+                        }
+                    } catch (error) {
+                        status.innerHTML = 'Error: ' + error.message;
+                    }
+                } else {
+                    status.innerHTML = 'Please select a file.';
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
