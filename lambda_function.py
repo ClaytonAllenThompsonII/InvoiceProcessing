@@ -9,15 +9,13 @@ import boto3
 
 from botocore.exceptions import ClientError
 
-#Set up logging
-logger = logging.getLogger(__name__)
-#Initialize the Textract client.
-textract_client = boto3.client('textract')
+
+logger = logging.getLogger(__name__)                #Set up logging
+textract_client = boto3.client('textract')          #Initialize the Textract client.
+
 
 
 def lambda_handler(event, context):
-   
-
     # Get s3 Bucket and object information from the trigger event
     s3_bucket = event['Records'][0]['s3']['bucket']['name']
     s3_key = event['Records'][0]['s3']['object']['key']
@@ -25,8 +23,8 @@ def lambda_handler(event, context):
     # Specify the S3 bucket where you want to store Textract output
     output_bucket = 'extract-response-output-v1-us-east-1' # Add outout bucket to S3 called ""
 
-    # Call Textract to process the PDF
-    response = textract_client.start_document_text_detection(
+    # Call Textract to process the invoice PDF
+    response = textract_client.analyze_expense(
         DocumentLocation={'S3Object': {'Bucket': s3_bucket, 'Name': s3_key}}
     )
 
