@@ -23,7 +23,7 @@ def lambda_handler(event, context):
     s3_key = event['Records'][0]['s3']['object']['key']
 
     # Specify the S3 bucket where you want to store Textract output
-    output_bucket = 'your-output-bucket' # Add outout bucket to S3 called ""
+    output_bucket = 'extract-response-output-v1-us-east-1' # Add outout bucket to S3 called ""
 
     # Call Textract to process the PDF
     response = textract_client.start_document_text_detection(
