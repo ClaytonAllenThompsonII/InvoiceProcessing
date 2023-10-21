@@ -39,7 +39,7 @@ def print_labels_and_values(field):
         print("Value Detection - No values returned")
 
 
-def process_expense_analysis(s3_connection, client, bucket, document):
+def process_expense_analysis(s3_connection, client, bucket, document, output_bucket, output_filename):
 
    # Get the document from S3
     s3_object = s3_connection.Object(bucket, document)
@@ -47,6 +47,8 @@ def process_expense_analysis(s3_connection, client, bucket, document):
 
     # opening binary stream using an in-memory bytes buffer
     stream = io.BytesIO(s3_response['Body'].read())
+
+
 
     #loading stream into image
     image = Image.open(stream)
@@ -94,9 +96,11 @@ def main():
     session = boto3.Session(profile_name='profile-name')
     s3_connection = session.resource('s3')
     client = session.client('textract', region_name='us-east-1')
-    bucket = 'invoice-kxseafood-591543'
+    bucket = 'invoice-kxseafood-591543' # input bucket
     document = '2022 0124 KX 591543 $1190.52.pdf'
-    process_expense_analysis(s3_connection, client, bucket, document)
+    output_bucket = 'extract-response-output-v1-us-east-1' # output buckt
+    output_file = '' 
+    process_expense_analysis(s3_connection, client, bucket, document,output_bucket, output_filename)
 
 if __name__ == "__main__":
     main()
