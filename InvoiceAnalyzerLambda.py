@@ -7,6 +7,12 @@ from PIL import Image, ImageDraw
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+
+# Specify S3 bucket names
+Original_bucket = 'invoice-kxseafood-591543'
+Json_output_bucket = 'extract-response-output-v1-us-east-1'
+Modified_image_bucket = 'invoice-boxes' # create and name bucket (unless this is handled elsewhere)
+
 def draw_bounding_box(key, val, width, height, draw):
     # Code for drawing bounding boxes
     if "Geometry" in key:
