@@ -2,22 +2,66 @@
 <!--This is a simple HTML page with a form for uploading PDF invoices. 
     The JavaScript code handles the form submission, sending the selected file to the server for processing. --> >
 
-
     <!DOCTYPE html>
     <html>
     <head>
-        <title> Cost CurveAI - Invoice Upload</title>
+        <title>Cost CurveAI - Invoice Upload</title>
+        <style>
+            /* Add CSS styles for the menu box */
+            .menu-box {
+                width: 60px; /* Adjust the width as needed */
+                background-color: #0a3416; /* Background color */
+                color: #fff; /* Text color */
+                padding: 20px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 1; /* Ensure the menu is above other content */
+            }
+    
+            /* Style the menu links */
+            .menu-link {
+                color: #e2ebe7d9;
+                text-decoration: none;
+                display: block;
+                margin-bottom: 10px;
+            }
+    
+            /* Add a container to push content to the right of the menu */
+            .content-container {
+                margin-left: 90px; /* Adjust the margin to match the menu width */
+                padding: 20px; /* Add padding to maintain distance from the menu */
+            }
+    
+            /* Center align the title */
+            h1 {
+                text-align: center;
+                margin-top: 0;
+            }
+        </style>
     </head>
     <body>
-        <h1>Cost CurveAI</h1>
-        <h2>Upload Your Invoice</h2>
-        <form id="invoice-upload-form" action="#" method="post" enctype="multipart/form-data">
-            <input type="file" name="invoice" id="invoice" accept=".pdf">
-            <button type="submit">Upload</button>
-        </form>
-        
-        <div id="upload-status"></div>
-        
+        <div class="menu-box">
+            <!-- Add your menu items as links -->
+            <a class="menu-link" href="#">Cost Curve</a>
+            <a class="menu-link" href="#">Analytics</a>
+            <a class="menu-link" href="#">Invoice</a>
+            <a class="menu-link" href="#">Inventory</a>
+        </div>
+    
+        <div class="content-container">
+            <h1>Cost CurveAI</h1>
+            <h3>Invoice Upload</h3>
+            
+            <form id="invoice-upload-form" action="#" method="post" enctype="multipart/form-data">
+                <input type="file" name="invoice" id="invoice" accept=".pdf">
+                <button type="submit">Upload</button>
+            </form>
+            
+            <div id="upload-status"></div>
+        </div>
+    
         <script>
             const form = document.getElementById('invoice-upload-form');
             const status = document.getElementById('upload-status');
