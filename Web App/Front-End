@@ -39,6 +39,11 @@
                 text-align: center;
                 margin-top: 0;
             }
+
+            /* Change the font family to Segoe UI for the entire page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+        }
         </style>
     </head>
     <body>
