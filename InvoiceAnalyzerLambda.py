@@ -10,8 +10,16 @@ logger.setLevel(logging.INFO)
 
 # Specify S3 bucket names
 Original_bucket = 'invoice-kxseafood-591543'
-Json_output_bucket = 'extract-response-output-v1-us-east-1'
+Json_output_bucket = 'extract-response-output-v1-us-east-1' # bucket for Textract invoice JSON data. 
 Modified_image_bucket = 'invoice-boxes' # create and name bucket (unless this is handled elsewhere)
+
+# # Specify the original document name
+document = '2022 0124 KX 591543 $1190.52.pdf'
+# Specify a name for the modified document with bounding boxes
+modified_document = f'{document}_with_bounding_boxes'
+
+
+
 
 def draw_bounding_box(key, val, width, height, draw):
     # Code for drawing bounding boxes
@@ -49,19 +57,20 @@ def process_invoice(event, context):
     bucket = event['Records'][0]['s3']['bucket']['name']
     document = event['Records'][0]['s3']['object']['key']
 
-    # Step 1: Analyze the original invoice
-    response = textract_client.analyze_expense(
-        Document={'S3Object': {'Bucket': bucket, 'Name': document}}
+    # Step 1: Analyze the original invoice using Amazon Textract
+    # Analyze_expense is a Textract API function that is used to analyze an invoice. 
+    response = textract_client.analyze_expense(             
+        Document={'S3Object': {'Bucket': Original_bucket, 'Name': document}} # Document is a dictionary that describes the source document Specified as dictionary with ket 'S3Object', which indicates that the source document is tored in S3. 
     )
 
     # Log info about the analysis
     logger.info("Analyzed invoice: {}".format(document))
 
     # Step 2: Store the JSON output in the "textract-invoice-data" bucket
-    json_output = response  # Replace with the actual JSON data
+    json_output = response  # Assign the response as json_output with the actual JSON data
     s3_client.put_object(
-        Bucket='textract-invoice-data',
-        Key=f'{document}.json',
+        Bucket= Json_output_bucket,
+        Key=f'{document}.json', # name of the JSON output file will be "2022 0124 KX 591543 $1190.52.pdf.json."
         Body=json_output
     )
 
@@ -91,9 +100,9 @@ def process_invoice(event, context):
                     draw_bounding_box(key, val, width, height, draw)
 
     # Save the modified image with bounding boxes
-    modified_image_path = f'/tmp/{document}'
+    modified_image_path = f'/tmp/{modified_document}'
     image.save(modified_image_path)
-    s3_client.upload_file(modified_image_path, 'invoice-boxes', document)
+    s3_client.upload_file(modified_image_path, 'invoice-boxes', modified_document)
 
     # Log info about creating the modified invoice
     logger.info("Created modified invoice with bounding boxes")
