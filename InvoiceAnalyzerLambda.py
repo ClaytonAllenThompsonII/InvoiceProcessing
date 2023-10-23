@@ -2,15 +2,17 @@ import boto3
 import io
 import logging
 from PIL import Image, ImageDraw
+import botocore.exceptions  # Import the exceptions module
 
 # Configure logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+
 # Specify S3 bucket names
 Original_bucket = 'invoice-kxseafood-591543'
 Json_output_bucket = 'extract-response-output-v1-us-east-1' # bucket for Textract invoice JSON data. 
-Modified_image_bucket = 'invoice-boxes' # create and name bucket (unless this is handled elsewhere)
+Modified_image_bucket = 'invoice-bucket-boxes' # create and name bucket (unless this is handled elsewhere)
 
 # # Specify the original document name and modified document with bounding boxes
 original_document = '2022 0124 KX 591543 $1190.52.pdf'
@@ -102,7 +104,7 @@ def process_invoice(event, context):
         # Save the modified image with bounding boxes
         modified_image_path = f'/tmp/{modified_document}'
         image.save(modified_image_path)
-        s3_client.upload_file(modified_image_path, 'invoice-boxes', modified_document)
+        s3_client.upload_file(modified_image_path, 'invoice-bucket-boxes', modified_document)
 
         # Log info about creating the modified invoice
         logger.info("Created modified invoice with bounding boxes")
@@ -111,7 +113,7 @@ def process_invoice(event, context):
     except botocore.exceptions.ClientError as e:
         # Handle specific AWS service errors here
         logger.error("Error during processing: {}".format(e))
-    # catch-all for unexpected errors, allowing you to log and handle any other exceptions that may occur.
+    # 
     except Exception as e:
         # Handle any other unexpected errors here
         logger.error("Unexpected error: {}".format(e))
