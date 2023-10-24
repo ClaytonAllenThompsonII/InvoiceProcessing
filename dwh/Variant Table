@@ -1,6 +1,11 @@
-/*Create a table with a VARIANT column that stores JSON data. */
+/*Create a table with a VARIANT column that stores JSON data.
+    Input table that aceepts raw JSON file */
 
 
-CREATE OR REPLACE expense_data (
-    json_data VARIANT
-);
+CREATE OR REPLACE TABLE textract_response_data (
+    IF NUMBER,                                           -- Optional ID or primary key column for unique identification
+    VAR VARIANT                                         --VARIANT data type to store JSON data
+ ); 
+
+
+
