@@ -2,23 +2,23 @@
 
 
 SELECT
-    Type_Text::STRING AS type_text,
-    Type_Confidence::NUMBER AS type_confidence,
-    LabelDetection_Text::STRING AS label_detection_text,
-    LabelDetection_Geometry_BoundingBox_Width::NUMBER AS label_detection_width,
-    LabelDetection_Geometry_BoundingBox_Height::NUMBER AS label_detection_height,
-    LabelDetection_Geometry_BoundingBox_Left::NUMBER AS label_detection_left,
-    LabelDetection_Geometry_BoundingBox_Top::NUMBER AS label_detection_top,
-    LabelDetection_Confidence::NUMBER AS label_detection_confidence,
-    ValueDetection_Text::STRING AS value_detection_text,
-    ValueDetection_Geometry_BoundingBox_Width::NUMBER AS value_detection_width,
-    ValueDetection_Geometry_BoundingBox_Height::NUMBER AS value_detection_height,
-    ValueDetection_Geometry_BoundingBox_Left::NUMBER AS value_detection_left,
-    ValueDetection_Geometry_BoundingBox_Top::NUMBER AS value_detection_top,
-    ValueDetection_Confidence::NUMBER AS value_detection_confidence
+    Type_Text::STRING AS                                    type_text,
+    Type_Confidence::NUMBER AS                              type_confidence,
+    LabelDetection_Text::STRING AS                          label_detection_text,
+    LabelDetection_Geometry_BoundingBox_Width::NUMBER AS    label_detection_width,
+    LabelDetection_Geometry_BoundingBox_Height::NUMBER AS   label_detection_height,
+    LabelDetection_Geometry_BoundingBox_Left::NUMBER AS     label_detection_left,
+    LabelDetection_Geometry_BoundingBox_Top::NUMBER AS      label_detection_top,
+    LabelDetection_Confidence::NUMBER AS                    label_detection_confidence,
+    ValueDetection_Text::STRING AS                          value_detection_text,
+    ValueDetection_Geometry_BoundingBox_Width::NUMBER AS    value_detection_width,
+    ValueDetection_Geometry_BoundingBox_Height::NUMBER AS   value_detection_height,
+    ValueDetection_Geometry_BoundingBox_Left::NUMBER AS     value_detection_left,
+    ValueDetection_Geometry_BoundingBox_Top::NUMBER AS      value_detection_top,
+    ValueDetection_Confidence::NUMBER AS                    value_detection_confidence
 FROM
-    expense_data,
-    LATERAL FLATTEN(input => json_data) AS flattened_json,
+    textract_response_data,
+    LATERAL FLATTEN(input => VAR) AS flattened_json,
     LATERAL FLATTEN(input => flattened_json.value) AS flattened_json_attributes
 WHERE
     flattened_json_attributes.key IN (
