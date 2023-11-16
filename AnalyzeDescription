@@ -23,7 +23,18 @@ def extract_item_type(description):
 
     return None
 
-# Example usage
-DESCRIPTION = "Fresh Red Grouper Fillet, Skin Off, 1-3 Wild Gulf of Mexico"
+# Prompt the user to input a description
+DESCRIPTION = input("Enter the line item description: ")
+
+# Call the function with the user's input
 ITEM_TYPE = extract_item_type(DESCRIPTION)
 print("Item Type:", ITEM_TYPE)
+
+
+# Sample Inpit : Fresh Red Grouper Fillet, Skin Off, 1-3 Wild Gulf of Mexico 
+
+
+# Example usage
+#DESCRIPTION = "Fresh Red Grouper Fillet, Skin Off, 1-3 Wild Gulf of Mexico"
+#ITEM_TYPE = extract_item_type(DESCRIPTION)
+#print("Item Type:", ITEM_TYPE)
