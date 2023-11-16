@@ -1,0 +1,5 @@
+Need to create data pipeline between Quickbooks, AWS, and Snowflake. 
+
+Call Quickbooks API to download all COGS general ledger codes. 
+Use Lambda function to manage batch. 
+Model, Transform, Query Data into normalized records. 
