@@ -96,7 +96,7 @@ def main():
     s3_connection = session.resource('s3')
     client = session.client('textract', region_name='us-east-1')
     bucket = 'invoice-kxseafood-591543' # input bucket
-    document = '2022 0124 KX 591543 $1190.52.pdf'
+    document = '2022 0124 KX 591543 $1190.52.pdf' # need to figure out a way to gain access the file name when it is process by Node.JS. 
     output_bucket = 'extract-response-output-v1-us-east-1' # output bucket
     output_filename = '' 
     process_expense_analysis(s3_connection, client, bucket, document,output_bucket, output_filename)
