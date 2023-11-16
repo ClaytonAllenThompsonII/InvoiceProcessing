@@ -1,0 +1,54 @@
+import snowflake.connector
+
+def extract_item_type(description, cursor):
+    """
+    Extracts the type of item from the given description using keywords fetched from a database.
+
+    Parameters:
+    - description (str): The line item description.
+    - cursor: Snowflake cursor to execute queries.
+
+    Returns:
+    - str or None: The extracted item type or None if not found.
+    """
+    # Tokenize the description
+    tokens = description.split()
+
+    # Fetch keywords from the database
+    cursor.execute("SELECT keyword FROM GeneralLedger_table")
+    result = cursor.fetchall()
+    keywords = [row[0] for row in result]
+
+    # Filter tokens
+    filtered_tokens = [token for token in tokens if token in keywords]
+
+    # If there are matching tokens, return the first one (you can modify this as needed)
+    if filtered_tokens:
+        return filtered_tokens[0]
+
+    return None
+
+# Connect to Snowflake # leave blank when committing. 
+# look into managing this connection with secrets manager or equivalent. 
+conn = snowflake.connector.connect(
+    user='your_username',
+    password='your_password',
+    account='your_account',
+    warehouse='your_warehouse',
+    database='your_database',
+    schema='your_schema'
+)
+
+# Create a cursor
+cursor = conn.cursor()
+
+# Prompt the user to input a description
+DESCRIPTION = input("Enter the line item description: ")
+
+# Call the function with the user's input and the Snowflake cursor
+ITEM_TYPE = extract_item_type(DESCRIPTION, cursor)
+print("Item Type:", ITEM_TYPE)
+
+# Close the cursor and connection
+cursor.close()
+conn.close()
